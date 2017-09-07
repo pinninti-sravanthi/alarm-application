@@ -10,6 +10,9 @@
 	src="jquery-3.2.1.min (1).js"></script>
 	<script
 	src="js/bootstrap.min.js"></script>
+	<style>
+	.vertical_line{height:3000px; width:1px;background:#000;}
+	</style>
 	
 <script type="text/javascript">
 
@@ -41,8 +44,7 @@ $(document).ready(function () {
             	var li = document.createElement("li");
             	var lii =document.createElement("button");
             	lii.setAttribute("id",time);
-            	lii.setAttribute("type","delete");
-	//lii.setAttribute("click",function() { alert("blabla"); });
+            	
             	li.setAttribute("class", "list-group-item");
             	li.setAttribute("class","well");
             	li.appendChild(document.createTextNode(time));
@@ -53,13 +55,14 @@ $(document).ready(function () {
 
 	}
 	});
+	
 	$('#giveTime').keypress(function(e){
 		if(e.which == 13) {
 	        alert('You pressed enter!');
 		
 		//alert("button pressed");
 	   var giveTime = $('#giveTime').val();
-	   var data={"givenTime": giveTime};
+	   var data={"giveTime": giveTime};
 	   var jsonobject = JSON.stringify(data);
 		$.ajax({
 			type:'POST',
@@ -117,6 +120,7 @@ onclick="this.select()" onKeyDown="if(event.keyCode==13);"
 style="margin-bottom: -5px; margin-left: 17px;" autofocus></form>
 </div>
 <div onclick="openBox()" id="plus">
+<div id="hor"><hr width="446px"></div>
 <center>
 <h1>
 <div class="glyphicon glyphicon-plus" style="
@@ -126,6 +130,9 @@ style="margin-bottom: -5px; margin-left: 17px;" autofocus></form>
 </center>
 </div>
 </div>
+<div class="col-md-5"><div class="vertical_line" style="
+    margin-left: -237px;
+"></div></div>
 
     
 

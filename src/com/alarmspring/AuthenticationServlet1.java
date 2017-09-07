@@ -44,9 +44,10 @@ public class AuthenticationServlet1 {
 		String firstName = jsonObject.getString("firstname");
 		String lastName = jsonObject.getString("lastname");
 		String email = jsonObject.getString("email");
+		String password = jsonObject.getString("password");
 		HttpSession session = request.getSession();
 		// session.setAttribute("useremail",email);
-		String password = request.getParameter("password");
+		//String password = request.getParameter("password");
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		AuthenticationJDO authenticationJdoObject = new AuthenticationJDO();
 		authenticationJdoObject.setfirstName(firstName);
@@ -207,8 +208,6 @@ public class AuthenticationServlet1 {
 	}
 	
 	
-	
-	
 	@ResponseBody @RequestMapping(value = "/ListOfTimersOfUser", method = RequestMethod.POST)
 	public String displayListOfTimersOfUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		//PrintWriter out = response.getWriter();
@@ -270,7 +269,7 @@ public class AuthenticationServlet1 {
 		String str1 = str.replace("null", "");
 		JSONObject data = new JSONObject(str1);
 		System.out.println(data);
-		String time = data.getString("givenTime");
+		String time = data.getString("giveTime");
 		System.out.println(time);
 		HttpSession session = request.getSession();
 		AuthenticationJDO registerobj = (AuthenticationJDO) session.getAttribute("id");
@@ -283,30 +282,48 @@ public class AuthenticationServlet1 {
 		date.setEmail(email);
 		PersistenceManager pmf = PMF.get().getPersistenceManager();
 
-		pmf.makePersistent(date);
+		/*pmf.makePersistent(date);
 		
+session.setAttribute("timerId", date);*/
+		
+		
+		
+		List<Data> results1 = null;
+		List<String> listStrings = new ArrayList<String>();
+		try {
 
-		/*
-		 * List<Data> results = null; try {
-		 * 
-		 * Query q = pmf.newQuery(Data.class, ("email == email1"));
-		 * q.declareParameters("String email1");
-		 * 
-		 * try {
-		 * 
-		 * results = (List<Data>) q.execute(email); System.out.println("dfdf");
-		 * if (results.isEmpty() || results.equals(null)) { } else { for(Data
-		 * d:results){ System.out.println(d.getaddTime());
-		 * 
-		 * 
-		 * }
-		 * 
-		 * } } catch (Exception e) { e.printStackTrace(); }
-		 * 
-		 * } finally {
-		 * 
-		 * }
-		 */
+		Query query = pmf.newQuery(Data.class, ("addTime == Time && Idvalues == id1 "));
+		query.declareParameters("String Time,String id1");
+
+		try {
+
+		results1 = (List<Data>) query.execute(time,ids);
+		if (results1.isEmpty() || results1.equals(null)) {
+		pmf.makePersistent(date);
+		} else {
+		for (Data d : results1)
+		{
+		System.out.println(d);
+		pmf.makePersistent(date);	
+		}
+		System.out.println("time already exists");
+		return;
+
+		}
+
+
+
+		}
+		catch(Exception e)
+		{
+		System.out.println(e);
+		}
+		}
+		finally
+		{
+
+		}
+		
 	}
 	@RequestMapping("/afterlogin")
 	public String afterLogin()
@@ -327,5 +344,49 @@ public class AuthenticationServlet1 {
 	{
 		return "index";
 	}
+	/*@RequestMapping(value="/delete",method=RequestMethod.POST)
+	public void Delete(HttpServletRequest req, HttpServletResponse res) throws JSONException{
+    System.out.println("in delete function");
+	String str = Util.getPostData(req);
+	String str1 = str.replace("null", "");
+	//JSONObject jsonobject = new JSONObject(str1);
+	JSONObject jsonObject = new JSONObject(str1);
+	String deltime = jsonObject.getString("deltime");
+	System.out.println(deltime+"pkj");
+	HttpSession session = req.getSession();
+	PersistenceManager pm = PMF.get().getPersistenceManager();
+	
+	//AuthenticationJDO registerobj1 = (AuthenticationJDO) session.getAttribute("timerId");
+	Data dataobj=new Data();
+	List<Data> results11 = null;
+	try {
 
+		Query query = pm.newQuery(Data.class, ("addTime == time"));
+		query.declareParameters("String time");
+		
+
+		try {
+
+			results11 = (List<Data>) query.execute(deltime);
+		
+			if (results11.isEmpty() || results11.equals(null)) {
+			} else {
+				for(Data dd: results11){
+				//signOut(req)
+					System.out.println(dd.getaddTime());
+				dd.getaddTime();
+				dd.setaddTime("");
+
+					}
+			}
+		}catch(Exception e){
+				System.out.println(e);
+			}
+				
+			
+	}finally{
+		
+	}
+		}*/
 }
+	

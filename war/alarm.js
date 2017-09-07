@@ -14,7 +14,7 @@ var li = document.createElement("li");
 var lii=document.createElement("button");
 //lii.setAttribute("id","ids")
 lii.setAttribute("id",time);
-lii.setAttribute("type","delete");
+//lii.setAttribute("type","delete");
 //lii.setAttribute("onclick", function() { alert("blabla"); });
 li.setAttribute("class", "list-group-item");
 li.setAttribute("class","well");
@@ -117,8 +117,39 @@ function startTimer(event){
 	}
 	else
 		{
-		document.getElementById(targetId);
+		var deltime=targetId;
+		
 		alert(targetId);
+		console.log(deltime);
+		//var targetId;
+		//console.log(deltime);
+		/*var xhr = new XMLHttpRequest();
+		var url = "/delete";
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-type", "application/json");
+		xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+		//var json = JSON.parse(xhr.responseText);
+			alert("success");
+		//console.log(json);
+		//alert(json.email);
+		//console.log(json.email);
+		//document.getElementById("demo").innerHTML = this.responseText;
+		if(json.successmsg==="sucess")
+		{
+		alert("success");
+		}
+		else{
+		alert("fail");
+		}
+		//window.location.href="/test/success";
+		//document.getElementById("myform").reset();
+		; }
+		}; 
+		var data = JSON.stringify({"deltime":deltime});
+		console.log(data);
+		xhr.send(data);*/
+		document.getElementById("targetId").style.display="none";
 		}
 	};
 
