@@ -21,37 +21,10 @@ li.setAttribute("class","well");
 li.appendChild(document.createTextNode(time));
 ul.appendChild(li);
 ul.appendChild(lii);
-document.getElementById("myForm").reset();
-
+//document.getElementById("myForm").reset();
+//document.getElementById("givenTime").style.display="block";
 
 }
-/*function startTimer(event)
-{
-	var event=event;
-	
-document.getElementById("display").innerHTML ="";
-date= new Date();
-var initialtime = time;
-var array =null;
-array= initialtime.split(':');
-console.log(array);
-var hours=array[0];
-var minutes=array[1];
-var seconds=array[2];
-
-//console.log(d);
-date.setHours(hours);
-date.setMinutes(minutes);
-date.setSeconds(seconds)
-clearInterval(timer);
-timer=setInterval(function () 
-{
-document.getElementById("display").innerHTML=date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
-date.setTime(date.getTime() + 1000);
-}
-, 1000);
-
-}*/
 function stop()
 {
 clearInterval(timer);
@@ -75,18 +48,6 @@ alert(event);
 	alert("please enter HH:MM:SS format only ");
 	}
 }
-/*function identify(ul){
-	//var event=document.getElementById("givenTime").innerHTML;
-	alert(ul);
-	var target=getEventTarget(ul);
-	//document.getElementById("display").innerHTML=target.innerHTML;
-	alert(target);
-	
-}*/
-/*document.getElementById("ul").onclick=function(event){
-	alert("fgfgfd");
-}
-*/
 //document.getElementById("givenTime").onclick=function(event){
 function startTimer(event){
 	var target = getEventTarget(event);
@@ -149,7 +110,8 @@ function startTimer(event){
 		var data = JSON.stringify({"deltime":deltime});
 		console.log(data);
 		xhr.send(data);*/
-		document.getElementById("targetId").style.display="none";
+		/*document.getElementById("givenTime").style.display="none";*/
+		target.style.display="none";
 		}
 	};
 

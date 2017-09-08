@@ -17,59 +17,49 @@
 <script type="text/javascript">
 
 $(document).ready(function () {
-	$.ajax({
+	  $.ajax({
 		type:'POST',
 		url:'/ListOfTimersOfUser',
 		success:function(list){
 		
-/* 			alert("success");
-			console.log(list);
-		var response=list;
-			//var val = JSON.parse(response);
-			/* for(var i=0;i<val.length;i++)
-				{
-				
-				console.log(i);
-				}
-			 */
 			  var arr=[];
-			 /*
-			 arr=response.split(',');
-			alert(arr);
-            alert(response.listOfStrings);	 */ 
             var a = JSON.parse(list);
              var arr=a.listOfStrings;
             arr.forEach(function(time){
             	var ul = document.getElementById("givenTime");
             	var li = document.createElement("li");
             	var lii =document.createElement("button");
-            	lii.setAttribute("id",time);
-            	
+            	lii.setAttribute("id",time);	
             	li.setAttribute("class", "list-group-item");
             	li.setAttribute("class","well");
             	li.appendChild(document.createTextNode(time));
             	ul.appendChild(li);
             	ul.appendChild(lii);
+            	 /* document.getElementById("givenTime").style.display="block";  */
             	
             })
 
 	}
-	});
-	
+	}); 
+	 
 	$('#giveTime').keypress(function(e){
 		if(e.which == 13) {
-	        alert('You pressed enter!');
+	        console.log("You pressed enter!");
 		
 		//alert("button pressed");
-	   var giveTime = $('#giveTime').val();
+	  var giveTime = $("#giveTime").val();
+ -	   
+	   console.log(giveTime);
 	   var data={"giveTime": giveTime};
 	   var jsonobject = JSON.stringify(data);
 		$.ajax({
 			type:'POST',
 			data : jsonobject,
 			url:'Timer',
+			datatype : "application/json",
+		    contentType: "text/plain",
 			success : function(result){
-				alert(jsonobject);
+				console.log(jsonobject);
 				//var obj = JSON.parse(result);
 				//alert(obj);
 				//alert(JSON.stringify(result));
@@ -101,23 +91,15 @@ $(document).ready(function () {
     border-left: 48;overflow-y: scroll;
 height: 519px;" onclick="startTimer(event)">
 </ul>
-<!-- onclick="startTime(this.value)" -->
-</div>
 
-<!-- <div id ="bottom" style ="position: fixed;
-bottom: 0px;">
-<div onclick="openBox()"style="
-    border-bottom: -60;
-    margin-bottom: 0px;
-    margin-left: 26px;
-    font-size: 35px;" >+</div> -->
+</div>
     
     <div id="bottom" style="position: fixed; bottom: 0px;">
 <div id="addingTime" style="display: none;">
-<form id="myForm">
-<input type="text" id="giveTime" value="" name="time"
+<!-- <form id="myForm"> -->
+<input type="text" id="giveTime"name="time"
 onclick="this.select()" onKeyDown="if(event.keyCode==13);"
-style="margin-bottom: -5px; margin-left: 17px;" autofocus></form>
+style="margin-bottom: -5px; margin-left: 17px;" autofocus><!-- </form> -->
 </div>
 <div onclick="openBox()" id="plus">
 <div id="hor"><hr width="446px"></div>
@@ -133,15 +115,6 @@ style="margin-bottom: -5px; margin-left: 17px;" autofocus></form>
 <div class="col-md-5"><div class="vertical_line" style="
     margin-left: -237px;
 "></div></div>
-
-    
-
-<!-- <div id="addingTime" style = "display : none;">
-<input type ="text" id ="giveTime" value="" name ="time" onclick="this.select()"onKeyDown="if(event.keyCode==13);" style="
-    margin-bottom: 32px; margin-left: 17px;" autofocus>
-<input type="submit" onclick ="postTime()" value ="submit">
-</div> -->
-<!-- <div id="givenTime" onclick="startTimer()"></div> -->
 <div class="col-md-6">
 
 <nav class="navbar navbar-fixed-top">

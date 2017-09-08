@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -12,15 +13,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.jackson.map.ObjectMapper;
+//import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 //import com.google.appengine.repackaged.com.google.gson.JsonObject;
 
 
@@ -68,6 +75,7 @@ public class AuthenticationServlet1 {
 				for (AuthenticationJDO obj : results) {
 					if (obj.getemail().equals(email)) {
 						//out.println("already exists");
+						System.out.println("email already exists");
 						valid = false;
 						break;
 						// return new ModelAndView("index");
@@ -82,21 +90,7 @@ public class AuthenticationServlet1 {
 					//return new ModelAndView("success");
 				}
 			}
-			/*
-			 * if (results.isEmpty()) {
-			 * pm.makePersistent(authenticationJdoObject);
-			 * session.setAttribute("id", authenticationJdoObject); //
-			 * response.sendRedirect("success.jsp"); return new
-			 * ModelAndView("success");
-			 * 
-			 * } else { // return new ModelAndView("index");
-			 * 
-			 * response.sendRedirect("index.jsp"); out.println(
-			 * "email already exists..");
-			 * 
-			 * return new ModelAndView("index"); } }
-			 */
-
+			
 			catch (NullPointerException nullexception) {
 
 			}
@@ -113,6 +107,58 @@ public class AuthenticationServlet1 {
 		// return modelObject;
 		
 	}
+	
+	/*@ResponseBody
+	@RequestMapping(value="/AuthenticationServlet",method=RequestMethod.POST)
+	public String User(@RequestBody String userdata,HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
+	System.out.println("into spring");
+	ObjectMapper objectmapper = new ObjectMapper();
+	
+	Map<String, String> map = new HashMap<>();
+	Map<String, Object> map1 = objectmapper.readValue(userdata, new TypeReference<Map<String, Object>>() {
+	});
+	System.out.println(userdata);
+	String firstname = (String)map1.get("firstname");
+	String lastname = (String) map1.get("lastname");
+	String email = (String)map1.get("email");
+	String password = (String)map1.get("password");
+	System.out.println(firstname);
+	HttpSession session = request.getSession();
+	AuthenticationJDO authenticationJdoObject = new AuthenticationJDO();
+	authenticationJdoObject.setfirstName(firstname);
+	authenticationJdoObject.setlastName(lastname);
+	authenticationJdoObject.setemail(email);
+	authenticationJdoObject.setpassword(password);
+	PersistenceManager pmf = PMF.get().getPersistenceManager();
+	// pmf.makePersistent(pojo);
+	if(username.equals("akhil")&&email.equals("akhil@gmail.com")&&password.equals("akhil"))
+	{
+	map.put("key", "success");
+	//System.out.println(objectmapper.writeValueAsString(map));
+
+
+	}
+	else
+	{
+	map.put("fail","fail");
+	//return objectmapper.writeValueAsString(map);
+	}
+	javax.jdo.Query q = pmf.newQuery(AuthenticationJDO.class, ("email==email1"));
+	q.declareParameters("String email1");
+	List<AuthenticationJDO> obj = (List<AuthenticationJDO>) q.execute(email);
+	if (obj.isEmpty()) {
+	pmf.makePersistent(authenticationJdoObject);
+	map.put("key", "success");
+	session.setAttribute("id", authenticationJdoObject);
+	} else {
+	map.put("key1","fail");
+	//out.println("you have already registerd ");
+	}
+	return objectmapper.writeValueAsString(map);
+	
+	}
+	
+	*/
 	@RequestMapping(value = "/LoginServlet",method = RequestMethod.POST)
 	@ResponseBody
 	public void Login(HttpServletRequest request, HttpServletResponse response) throws IOException, JSONException {
@@ -258,37 +304,79 @@ public class AuthenticationServlet1 {
 		
 		
 	}
-
+    /*@ResponseBody
 	@RequestMapping(value = "/Timer", method = RequestMethod.POST)
-	public void addTime(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String addTime(@RequestBody String timedata, HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
 
-		PrintWriter out = response.getWriter();
+		//PrintWriter out = response.getWriter();
 		// String giveTime = request.getParameter("giveTime");
-
-		String str = Util.getPostData(request);
-		String str1 = str.replace("null", "");
-		JSONObject data = new JSONObject(str1);
-		System.out.println(data);
-		String time = data.getString("giveTime");
-		System.out.println(time);
+        System.out.println("timer method");
+        System.out.println(timedata);
+        ObjectMapper objectmapper = new ObjectMapper();
+      //objectmapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
+      Map<String, String> map = new HashMap<>();
+      Map<String, Object> map1 = objectmapper.readValue(timedata, new TypeReference<Map<String, Object>>() {
+      });
+	
+		String addtime = (String) map1.get("givenTime");
+		
+		
+		//JSONObject data = new JSONObject();
+		//System.out.println(data);
+		//String time = data.getString("giveTime");
+		System.out.println("entered time in spring"+addtime);
 		HttpSession session = request.getSession();
 		AuthenticationJDO registerobj = (AuthenticationJDO) session.getAttribute("id");
 		Long ids = registerobj.getId();
 		System.out.println(ids);
 		String email = registerobj.getemail();
 		Data date = new Data();
-		date.setaddTime(time);
+		date.setaddTime(addtime);
 		date.getIdvalues().add(ids);
 		date.setEmail(email);
 		PersistenceManager pmf = PMF.get().getPersistenceManager();
 
-		/*pmf.makePersistent(date);
+		pmf.makePersistent(date);
 		
-session.setAttribute("timerId", date);*/
+       session.setAttribute("timerId", date);
+      return timedata;
+    */
+      
+      @RequestMapping(value = "/Timer", method = RequestMethod.POST)
+public void addTime(HttpServletRequest request, HttpServletResponse response)
+throws Exception {
+
+PrintWriter out=response.getWriter();
+//String giveTime = request.getParameter("giveTime");
+
+String str=Util.getPostData(request);
+String str1=str.replace("null", "");
+JSONObject data = new JSONObject(str1);
+System.out.println(data);
+String time = data.getString("giveTime");
+System.out.println(time);
+HttpSession session=request.getSession();
+AuthenticationJDO registerobj=(AuthenticationJDO) session.getAttribute("id");
+Long ids=registerobj.getId();
+System.out.println(ids);
+String email=registerobj.getemail();
+Data date = new Data();
+date.setaddTime(time);
+date.getIdvalues().add(ids);
+date.setEmail(email);
+PersistenceManager pmf= PMF.get().getPersistenceManager();
+pmf.makePersistent(date);
+
+
+
+
+
+}
+      
 		
 		
 		
-		List<Data> results1 = null;
+		/*List<Data> results1 = null;
 		List<String> listStrings = new ArrayList<String>();
 		try {
 
@@ -324,7 +412,8 @@ session.setAttribute("timerId", date);*/
 
 		}
 		
-	}
+		*/
+
 	@RequestMapping("/afterlogin")
 	public String afterLogin()
 	{

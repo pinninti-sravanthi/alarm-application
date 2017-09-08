@@ -1,5 +1,6 @@
 package com.alarmspring;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,7 +9,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-public class Data {
+public class Data implements Serializable{
 	
 	@Persistent
 	private String email;
