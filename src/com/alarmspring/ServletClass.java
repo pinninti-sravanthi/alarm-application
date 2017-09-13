@@ -21,7 +21,7 @@ public class ServletClass extends HttpServlet {
 		/*ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> data = mapper.readValue(req.getParameter("jsonobject"), Map.class);*/
 		 //System.out.println(data);
-		Data object = new Data();
+		TimerJDO object = new TimerJDO();
 		object.setaddTime(addTime);
 		PersistenceManager pmf = PMF.get().getPersistenceManager();
 		pmf.makePersistent(object);

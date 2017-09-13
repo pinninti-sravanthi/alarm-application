@@ -8,7 +8,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-public class AuthenticationJDO implements Serializable {
+public class UserJDO implements Serializable {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -23,6 +23,7 @@ private String lastName ;
 private String email;
 @Persistent
 private String password;
+
 
 public String getfirstName() {
 	return firstName;
@@ -58,4 +59,5 @@ public Long getId() {
 public void setId(Long id) {
 	this.ids=id;
 }
+
 }

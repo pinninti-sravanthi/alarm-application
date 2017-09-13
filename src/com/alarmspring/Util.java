@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 
 public class Util {
-	public static String getPostData(HttpServletRequest req) {
+	public static String getPostTimerJDO(HttpServletRequest req) {
 		StringBuilder sb = new StringBuilder();
 		try {
 		BufferedReader reader = req.getReader();

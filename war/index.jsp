@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Alarm Application</title>
 <link rel="stylesheet"
 	href="css/bootstrap.min.css">
 <script
@@ -15,7 +15,7 @@
 <body background="images/bk4.jpg">
 <div class="well" style="
     width: 379px;
-    height: 435px;
+    height: 466px;
     margin-left: 471px;
     margin-top: 90px;
 ">
@@ -34,6 +34,22 @@
 			document.getElementById("signIn").style.display = "block";
 			document.getElementById("signUp").style.display = "none";
 		}
+		function validate(){
+			var email=document.getElementById("email").value;
+			var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			var pass = document.getElementById('password').value;
+
+			if (pass.length < 6){
+				document.getElementById('errormessage').innerHTML="wrong password";
+				if (!email.match(mailformat)) 
+				document.getElementById('errormessage').innerHTML="wrong mail";
+
+				return false;
+				} else {
+				return true;
+				}
+				
+		}
 	</script>
 
 
@@ -41,34 +57,36 @@
 	<div id='signUp'>
 	<center>
 <div class="inner-addon left-addon">
-<i class="glyphicon glyphicon-user"></i><input type="text" name="firstName" id="firstName" class="form-control" style="
+<i class="glyphicon glyphicon-user"></i><input type="text" name="firstName" id="firstName" placeholder="FirstName" required class="form-control" style="
     margin-top: 14px;
 "></div>
 <br>				
 <div class="inner-addon left-addon">
-<i class="glyphicon glyphicon-user"></i><input type="text" name="lastName" id="lastName" class="form-control"></div>
+<i class="glyphicon glyphicon-user"></i><input type="text" name="lastName" id="lastName"placeholder="LastName" required class="form-control"></div>
 <br>			
 <div class="inner-addon left-addon">
-<i class="glyphicon glyphicon-user"></i><input type="email" name="email" id="email" class="form-control"></div>
-	<br>			
+<i class="glyphicon glyphicon-envelope"></i><input type="email" name="email" id="email" placeholder ="email" required class="form-control"></div>
+	<br>		
 	<div class="inner-addon left-addon">
-<i class="glyphicon glyphicon-lock"></i><input type="password" name="password" id="password" class="form-control"></div><br>
-<div class="inner-addon left-addon"><input type="submit" value="signin" class="form-control" onclick="signupcall()" style="
+<i class="glyphicon glyphicon-lock"></i><input type="password" name="password" id="password" placeholder="password" required class="form-control"></div><br>
+<div id="errormessage"></div><br>
+<div class="inner-addon left-addon"><input type="submit" value="signin" class="form-control" onclick="if(validate()){Register();}" style="
     width: 91px;
-    padding-left: 12px;s
+    padding-left: 12px;
 ">
 	</div>
 	</div>
 <center>
 	 <div id='signIn' style="display: none;"> 
 	<br>	
-<div class="inner-addon left-addon"><i class="glyphicon glyphicon-user"></i> <input type="email" class="form-control" id="email1"/></div>
+<div class="inner-addon left-addon"><i class="glyphicon glyphicon-envelope"></i> <input type="email" class="form-control" id="emailId" placeholder="Email" required/></div>
 <br>
 
 <div class="inner-addon left-addon">
-<i class="glyphicon glyphicon-lock"></i><input type="password" name="password" id="password1" class="form-control"></div>
+<i class="glyphicon glyphicon-lock"></i><input type="password" name="password" id="Password" class="form-control" placeholder="Password" required></div>
+
 <br>
-<div class="inner-addon left-addon"><input type="submit" value="signin" class="form-control" onclick="makeLoginAjax()" style="
+<div class="inner-addon left-addon"><input type="submit" value="signin" class="form-control" onclick="Login()" style="
     width: 91px;
     padding-left: 12px;
 ">

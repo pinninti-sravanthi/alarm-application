@@ -9,10 +9,12 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-public class Data implements Serializable{
+public class TimerJDO implements Serializable{
 	
 	@Persistent
 	private String email;
+	@Persistent
+	private Boolean isDeleted=false;
 	public String getEmail(){
 		return email;
 		
@@ -41,5 +43,11 @@ public Set<Long> getIdvalues() {
 		this.addTime = addTime;
 	}
 	
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
 
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 }

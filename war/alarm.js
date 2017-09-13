@@ -11,16 +11,32 @@ document.getElementById("addingTime").style.display ="none";
 time =document.getElementById("giveTime").value;
 var ul = document.getElementById("givenTime");
 var li = document.createElement("li");
-var lii=document.createElement("button");
-//lii.setAttribute("id","ids")
-lii.setAttribute("id",time);
-//lii.setAttribute("type","delete");
-//lii.setAttribute("onclick", function() { alert("blabla"); });
+var lii = document.createElement("button");
+lii.setAttribute("id", time);
+lii.className="glyphicon glyphicon-trash";
+lii.setAttribute("style","margin-right: -63px; float: right;margin-top: -58px;");
 li.setAttribute("class", "list-group-item");
-li.setAttribute("class","well");
+li.setAttribute("class", "well");
 li.appendChild(document.createTextNode(time));
 ul.appendChild(li);
 ul.appendChild(lii);
+
+/*var ul = document.getElementById("givenTime");
+var li = document.createElement("li");
+var lii=document.createElement("button");
+
+
+
+li.setAttribute("class", "list-group-item");
+li.setAttribute("class","well");
+lii.setAttribute("id",time);
+lii.setAttribute("style","margin-right: -63px; float: right;");
+lii.setAttribute("type","delete");
+li.appendChild(document.createTextNode(time));
+
+ul.appendChild(li);
+ul.appendChild(lii);
+*/
 //document.getElementById("myForm").reset();
 //document.getElementById("givenTime").style.display="block";
 
@@ -39,11 +55,11 @@ document.getElementById('giveTime').onkeydown = function(event){
     }
 }
 function checkTimeFormat(event){
-alert(event);
-	var regex = new RegExp("([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
+//alert(event);
+	var regex = new RegExp("([0-1]?[0-9]:[0-5]?[0-9]:[0-5]?[0-9])");
 	if (regex.test(event)) {
 	//alert("true");
-	postTime();
+	//postTime();
 	} else {
 	alert("please enter HH:MM:SS format only ");
 	}
@@ -63,7 +79,7 @@ function startTimer(event){
 	var array =null;
 	array= initialtime.split(':');
 	console.log(array);
-	var hours=array[0];
+	/*var hours=array[0];
 	var minutes=array[1];
 	var seconds=array[2];
 	date.setHours(hours);
@@ -71,7 +87,28 @@ function startTimer(event){
 	date.setSeconds(seconds);
 	clearInterval(timer);
 	timer=setInterval(function () {
+		//alert("sdf");
 	document.getElementById("display").innerHTML=date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+	date.setTime(date.getTime() + 1000);
+	}, 1000);
+	document.getElementById("stop").style.display = "block";
+	}*/
+	var hours = array[0];
+	var minutes = array[1];
+	var seconds = array[2];
+	date.setHours(hours);
+	date.setMinutes(minutes);
+	date.setSeconds(seconds);
+	clearInterval(timer);
+	timer = setInterval(function() {
+	var hrs = date.getHours();
+	var min = date.getMinutes();
+	var sec = date.getSeconds();
+	hrs = hrs<10?"0"+hrs:hrs;
+	min = min<10?"0"+min:min;
+	sec = sec<10?"0"+sec:sec;
+	document.getElementById("display").innerHTML = hrs+
+	":" +min+ ":" + sec;
 	date.setTime(date.getTime() + 1000);
 	}, 1000);
 	document.getElementById("stop").style.display = "block";
@@ -80,27 +117,39 @@ function startTimer(event){
 		{
 		var deltime=targetId;
 		
-		alert(targetId);
+		//alert(targetId);
 		console.log(deltime);
 		//var targetId;
 		//console.log(deltime);
-		/*var xhr = new XMLHttpRequest();
+		
+		var xhr = new XMLHttpRequest();
 		var url = "/delete";
 		xhr.open("POST", url, true);
 		xhr.setRequestHeader("Content-type", "application/json");
 		xhr.onreadystatechange = function () {
 		if (xhr.readyState == 4 && xhr.status == 200) {
-		//var json = JSON.parse(xhr.responseText);
-			alert("success");
-		//console.log(json);
-		//alert(json.email);
-		//console.log(json.email);
-		//document.getElementById("demo").innerHTML = this.responseText;
-		if(json.successmsg==="sucess")
+		var json = JSON.parse(xhr.responseText);
+			console.log("success");
+		
+		if(json.key==="success")
 		{
-		alert("success");
+			/*document.getElementById("errorDisplay").style.display ="block";
+			setTimeout(function() { document.getElementById("errorDisplay").style.display ="none"; }, 5000);*/
+		/*	$("#myElem").show();
+			setTimeout(function() { $("#myElem").hide(); }, 5000);
+		
+			setTimeout(function(){
+				document.getElementById("errorDisplay").innerHTML ="Deleted Successfully";
+			},3000);*/
+			document.getElementById("errorDisplay").innerHTML ="Deleted Successfully";
+		//alert("removed successfully");
+			
+		var targetToDelete = document.getElementById(targetId).previousSibling;
+		document.getElementById(targetId).parentNode.removeChild(targetToDelete);
+		target.style.display="none";
 		}
 		else{
+			
 		alert("fail");
 		}
 		//window.location.href="/test/success";
@@ -109,9 +158,11 @@ function startTimer(event){
 		}; 
 		var data = JSON.stringify({"deltime":deltime});
 		console.log(data);
-		xhr.send(data);*/
-		/*document.getElementById("givenTime").style.display="none";*/
-		target.style.display="none";
+		xhr.send(data);
+		
+		/*var targetToDelete = document.getElementById(targetId).previousSibling;
+			document.getElementById(targetId).parentNode.removeChild(targetToDelete);
+		*/
 		}
 	};
 
@@ -120,24 +171,3 @@ function startTimer(event){
 	return e.target || e.srcElement; 
 	}
  
-/*function startTime(event){
-	if(!timer){
-	startTimer(event);}
-	else
-		{
-		clearInterval(timer);
-		startTimer(event);
-		}
-		}*/
-	  /*event.stopImmediatePropagation();
-	    this.removeEventListener("click", startTimer());*/
-
-/*function removeEvent() {
-    document.getElementById("givenTime").removeEventListener('click', stop);
-}*/
-	    /*document.onclick = second;
-	}
-	function second(){
-	   // alert("I'm not suppose to appear after the first click, only the second.");
-		startTimer(event);
-	}*/
