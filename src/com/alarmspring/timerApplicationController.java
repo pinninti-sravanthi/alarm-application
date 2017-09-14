@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -341,17 +342,12 @@ public class timerApplicationController {
         System.out.println("timer method");
         System.out.println(timedata);
         ObjectMapper objectmapper = new ObjectMapper();
-      //objectmapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
+      
       Map<String, String> map = new HashMap<>();
       Map<String, Object> map1 = objectmapper.readValue(timedata, new TypeReference<Map<String, Object>>() {
       });
 	
 		String addtime = (String) map1.get("giveTime");
-		
-		
-		//JSONObject data = new JSONObject();
-		//System.out.println(data);
-		//String time = data.getString("giveTime");
 		System.out.println("entered time in spring"+addtime);
 		HttpSession session = request.getSession();
 		UserJDO registerobj = (UserJDO) session.getAttribute("id");
@@ -362,23 +358,33 @@ public class timerApplicationController {
 		date.setaddTime(addtime);
 		date.getIdvalues().add(ids);
 		date.setEmail(email);
+		
 		PersistenceManager pmf= PMF.get().getPersistenceManager();
 		//pmf.makePersistent(date);
 				List<TimerJDO> results1 = null;
 				List<String> listStrings = new ArrayList<String>();
 				try {
 
-				Query query = pmf.newQuery(TimerJDO.class, ("addTime == Time && Idvalues == id1 "));
+				Query query = pmf.newQuery(TimerJDO.class, ("addTime == Time && Idvalues == id1"));
 				query.declareParameters("String Time,String id1");
 
 				try {
 
 				results1 = (List<TimerJDO>) query.execute(addtime,ids);
 				if (results1.isEmpty() || results1.equals(null)) {
+					
+					
 				pmf.makePersistent(date);
 				map.put("key", "success");
-				} else {
-				
+					}
+				else if(results1.get(0).getIsDeleted().equals(true))
+					{
+						results1.get(0).setIsDeleted(false);
+						pmf.makePersistent(results1.get(0));
+						map.put("key", "success");
+					}
+				else
+				{			
 				map.put("key1", "fail");
 				System.out.println("time already exists");
 				}
@@ -470,84 +476,48 @@ PersistenceManager pmf= PMF.get().getPersistenceManager();
 	public ModelAndView afterregister(){
 		return new ModelAndView("success");
 	}
-	@RequestMapping("/Signout")
+	/*@RequestMapping("/Signout")
 	public String signOut(HttpServletRequest req) throws JSONException{
 	   String sss = Util.getPostTimerJDO(req);
 	   JSONObject json = new JSONObject(sss);
 	   //System.out.println(str);
-	   String email = json.getString("email");
+	   String email = json.getString("email");  
 	   System.out.println(email);
+	   
 	   return "index";
-	}
+	}*/
 	
 	
-	/*
 	@ResponseBody
 	@RequestMapping(value="/Signout",method=RequestMethod.POST)
-	public ModelAndView signOut(@RequestBody String userinfo,HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
-	System.out.println("into spring");
-	ObjectMapper objectmapper = new ObjectMapper();
-	Map<String, String> map = new HashMap<>();
-	Map<String, Object> maper = objectmapper.readValue(userinfo, new TypeReference<Map<String, Object>>() {
-	});
-	System.out.println(userinfo);
-	String email = (String)maper.get("email");
+	public String signOut(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+	System.out.println("into signout");
+	ObjectMapper objectmapeer = new ObjectMapper();
+	Map map = new HashMap();
 	HttpSession session = request.getSession();
+	UserJDO userJdoObject=(UserJDO) session.getAttribute("id");
+	String email=userJdoObject.getemail();
+	System.out.println(email);
+	// session.removeAttribute("userJdoObject");
+	if(session!=null){
 	session.invalidate();
-	
-	return  new ModelAndView("index");
-	}*/
+		
+	map.put("key","success");
+	}
+	return  objectmapeer.writeValueAsString(map);
 
-	@RequestMapping("/aftersignout")
+}
+	@RequestMapping("/aftersigout")
+	public ModelAndView after(){
+		return new ModelAndView("index"); 
+	}
+
+	/*@RequestMapping("/aftersignout")
 	public String after()
 	{
 		return "index";
-	}
-	/*
-	@RequestMapping(value="/delete",method=RequestMethod.POST)
-	public void Delete(HttpServletRequest req, HttpServletResponse res) throws JSONException{
-    System.out.println("in delete function");
-	String str = Util.getPostTimerJDO(req);
-	String str1 = str.replace("null", "");
-	//JSONObject jsonobject = new JSONObject(str1);
-	JSONObject jsonObject = new JSONObject(str1);
-	String deltime = jsonObject.getString("deltime");
-	System.out.println(deltime+"pkj");
-	HttpSession session = req.getSession();
-	PersistenceManager pm = PMF.get().getPersistenceManager();
+	}*/
 	
-	//UserJDO registerobj1 = (UserJDO) session.getAttribute("timerId");
-	TimerJDO dataobj=new TimerJDO();
-	List<TimerJDO> results11 = null;
-	try {
-
-		Query query = pm.newQuery(TimerJDO.class, ("addTime == time"));
-		query.declareParameters("String time");
-		
-
-		try {
-
-			results11 = (List<TimerJDO>) query.execute(deltime);
-		
-			if (results11.isEmpty() || results11.equals(null)) {
-			} else {
-				for(TimerJDO dd: results11){
-				//signOut(req)
-					System.out.println(dd.getaddTime());
-				dd.getaddTime();
-				dd.setaddTime("");
-
-					}
-			}
-		}catch(Exception e){
-				System.out.println(e);
-			}
-				
-			
-	}finally{
-		
-	}
-		}*/
 	
 	@ResponseBody
 	@RequestMapping(value="/delete",method=RequestMethod.POST)

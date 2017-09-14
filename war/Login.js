@@ -39,29 +39,26 @@ function Login()
 		 xhr.send(data);	 
  }
  function signOut(){
-	// var email = document.getElementById("email").value;
-	// console.log(email);
-	 //var password = document.getElementById("password").value;
-	// console.log(name);
 	 var xhr = new XMLHttpRequest();
-	 //var email = "akhil";
 	 var url = "/Signout";
 	 xhr.open("POST", url, true);
 	 xhr.setRequestHeader("Content-type", "application/json");
 	 xhr.onreadystatechange = function () {
 	 if (xhr.readyState == 4 && xhr.status == 200) {
-		// alert("success");
+		 var json = JSON.parse(xhr.responseText);
+		 if(json.key=="success"){
+			 console.log("response");
+			 window.location.href="/aftersigout";
+			 
+			 
+		 }
 	 
-	    window.location.href="/aftersignout";
+	  
 	
 	 ; }
 	 }; 
-	 var data = JSON.stringify({"email": "email"});
-	 //console.log(name);
-	 xhr.send(data);
-	 
-	 
-	 
+	 xhr.send("");
+	 	 
 	 
  }
  function Register()

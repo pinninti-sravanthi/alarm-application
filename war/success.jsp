@@ -12,6 +12,7 @@
 	height: 3000px;
 	width: 1px;
 	background: #000;
+	
 }
 </style>
 <div id="name" style="margin-left: 1243px; margin-top: 14px;"></div>
@@ -23,52 +24,109 @@ var name = "<%=x%>";
 	document.getElementById("name").innerHTML = name;
 </script>
 
-<script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						$
-								.ajax({
+
+</head>
+<body onfocusout="closeBox()">
+
+	<div class="col-md-6">
+		<h2>TIME</h2>
+		<div id="scrollBar" style="overflow-y: auto; height: 498px; margin-right: 217px;">
+		<h4><div id="emptyMessage" style="display:block; text-align:center"></div></h4>
+			<ul id="givenTime" class="list-group"
+				style="width: 367px; text-align: center; font-size: 22px; border-left: 48;"
+				onclick="startTimer(event)">
+			</ul>
+		</div>
+	</div>
+
+	<div id="bottom" style="position: fixed; bottom: 0px;">
+		<div id="addingTime" style="display: none;">
+			<!-- <form id="reset"> -->
+				<input type="time" step="2" id="giveTime" name="time" 
+				onkeydown="addTime(event);"
+					style="width: 416px;margin-left: 4px;text-align: center;" autofocus>
+			<!-- </form> -->
+		</div>
+		<div onclick="openBox()" id="plus">
+			<div id="hor">
+				<hr width="446px">
+			</div>
+			<center>
+				<h1>
+					<div class="glyphicon glyphicon-plus" style="text-align:center"></div>
+				</h1>
+			</center>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div id="errorDisplay" >
+		<p id="delete" style="display:none">Deleted Successfully</p>
+		<p id="timeExists" style="display:none">Time already Exists</p>
+		</div>
+		<div class="vertical_line"
+			style="margin-top: -43px; margin-left: -237px; height: 640px;"></div>
+
+	</div>
+	<div class="col-md-6">
+
+		<nav class="navbar navbar-fixed-top">
+		<ul class="nav navbar-nav navbar-right">
+			
+			<li><h5>
+					<div class="glyphicon glyphicon-off" onclick="signOut()" style="margin-right: 20px; font-size: 24px;"></div>
+				</h5></li>
+		</ul>
+		</nav>
+		<div id="startTime"></div>
+		
+		<div id="display" style="font-size: 90px; margin-left: 681px; margin-top: -470px;">00:00:00</div>
+		<div id="stop" style="display: none" onclick="stop()">
+		<span class="glyphicon glyphicon-stop" style="color: red; font-size =10px; font-size: 25px; margin-left: 728px;">stop</span>
+			
+		</div>
+	</div>
+	<div id="result1"></div>
+
+	<script src="alarm.js"></script>
+	<script src="Login.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+						$.ajax({
 									type : 'POST',
 									url : '/ListOfTimersOfUser',
 									success : function(list) {
-
 										var arr = [];
 										var a = JSON.parse(list);
 										var arr = a.listOfStrings;
-										arr
-												.forEach(function(time) {
-
-													var ul = document
-															.getElementById("givenTime");
-													var li = document
-															.createElement("li");
-													var lii = document
-															.createElement("button");
-													lii
-															.setAttribute("id",
-																	time);
+										if(arr.length>0){
+										arr.forEach(function(time) {
+											document.getElementById("emptyMessage").style.display="none";
+													var ul = document.getElementById("givenTime");
+													var li = document.createElement("li");
+													var lii = document.createElement("button");
+													lii.setAttribute("id",time);
 													lii.className = "glyphicon glyphicon-trash";
-													lii
-															.setAttribute(
-																	"style",
-																	"margin-right: -63px; float: right;margin-top: -58px;");
-													li.setAttribute("class",
-															"list-group-item");
-													li.setAttribute("class",
-															"well");
-													li
-															.appendChild(document
-																	.createTextNode(time));
+													lii.setAttribute("style","margin-right: -44px; float: right;margin-top: -73px;");
+													li.setAttribute("class","list-group-item");
+													li.setAttribute("class","well");
+													li.appendChild(document.createTextNode(time));
 													ul.appendChild(li);
 													ul.appendChild(lii);
+													document.getElementById("giveTime").value=""
 
 												})
-
+										}
+										else
+											{
+											
+											document.getElementById("emptyMessage").innerHTML="No Timers are available";
+											
+											
+											}
 									}
 								});
 
-						$('#giveTime')
+						/* $('#giveTime')
 								.keypress(
 										function(e) {
 											if (e.which == 13) {
@@ -112,10 +170,10 @@ var name = "<%=x%>";
 																				.removeChild(targetToDelete1);
 																		giveTime.style.display = "none";  */
 
-																}
+																//}
 																//alert(obj);
 																//alert(JSON.stringify(result));
-															},
+														/* 	},
 															error : function(
 																	result) {
 																alert("error");
@@ -123,75 +181,10 @@ var name = "<%=x%>";
 
 														});
 											}
-										});
-
+										}); */
+ 
 					});
-</script>
-</head>
-<body>
-
-	<div class="col-md-6">
-		<h2>TIME</h2>
-		<div id="scrollBar"
-			style="overflow-y: scroll; height: 369px; margin-right: 244px;">
-			<ul id="givenTime" class="list-group"
-				style="width: 296px; text-align: center; font-size: 22px; border-left: 48;"
-				onclick="startTimer(event)">
-			</ul>
-		</div>
-	</div>
-
-	<div id="bottom" style="position: fixed; bottom: 0px;">
-		<div id="addingTime" style="display: none;">
-			<form id="reset">
-				<input type="text" id="giveTime" name="time" onclick="this.select()"
-					onKeyDown="if(event.keyCode==13);"
-					style="margin-bottom: -5px; margin-left: 191px;" autofocus>
-			</form>
-		</div>
-		<div onclick="openBox()" id="plus">
-			<div id="hor">
-				<hr width="446px">
-			</div>
-			<center>
-				<h1>
-					<div class="glyphicon glyphicon-plus" style="margin-left: 61px;"></div>
-				</h1>
-			</center>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div id="errorDisplay"></div>
-		<div class="vertical_line"
-			style="margin-top: -33px; margin-left: -237px; height: 651px;"></div>
-
-	</div>
-	<div class="col-md-6">
-
-		<nav class="navbar navbar-fixed-top">
-		<ul class="nav navbar-nav navbar-right">
-			<!-- <li><a href="#"><span><input type="text">
-</text area></span></a></li> -->
-			<li><h5>
-					<div class="glyphicon glyphicon-off" onclick="signOut()"
-						style="margin-right: 20px; font-size: 24px;"></div>
-				</h5></li>
-		</ul>
-		</nav>
-		<div id="startTime"></div>
-		<!-- <div id="display" style="font-size: 90px;margin-left: 681px;margin-top: -2827px;"></div> -->
-		<!-- <div id="display"style ="margin-top: 164px;font-size: 90px;" ></div> -->
-		<div id="display"
-			style="font-size: 90px; margin-left: 681px; margin-top: -470px;"></div>
-		<div id="stop" style="display: none" onclick="stop()">
-			<span class="glyphicon glyphicon-stop"
-				style="color: red; font-size =10px; font-size: 25px; margin-left: 728px;">stop</span>
-			<!-- <span class="glyphicon glyphicon-stop" style="color:red;font-size=10px;font-size: 25px;">stop</span> -->
-		</div>
-	</div>
-	<div id="result1"></div>
-
-	<script src="alarm.js"></script>
-	<script src="Login.js"></script>
+	</script>
+	
 </body>
 </html>

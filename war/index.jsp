@@ -22,7 +22,7 @@
 	<h1
 		style="text-align: center; padding-top: 30px; color: cornflowerblue;">Welcome!</h1>
 <!-- 	<div class="Button" style="text-align: center"> -->
-	<center>	<button onclick="showSignUp()" style="color: brown;width: 82px;margin-left: -87px;" class="form-control">SignUp</button>
+	<center>	<button onclick="showSignUp()" style="color: brown;width: 82px;margin-left: -87px;" class="form-control" autofocus>SignUp</button>
 		<button onclick="showSignIn()" style="color: brown;width: 82px;margin-left: 95px;margin-top: -35px;"  class="form-control">SignIn</button></center>
 	<!-- </div> -->
 	<script>
@@ -34,7 +34,7 @@
 			document.getElementById("signIn").style.display = "block";
 			document.getElementById("signUp").style.display = "none";
 		}
-		function validate(){
+		/* function validate(){
 			var email=document.getElementById("email").value;
 			var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 			var pass = document.getElementById('password').value;
@@ -49,28 +49,133 @@
 				return true;
 				}
 				
-		}
+		} */
+	
+
+		var valid = true, valid1 = true, valid2 = true, valid3 = true;
+		function firstname() {
+			var firstname = document.getElementById('firstName').value;
+
+			if (firstname.length > 1) {
+			var icon = document.getElementById("as");
+			icon.className = "glyphicon glyphicon-ok";
+			icon.setAttribute("style","color:green");
+			valid = true;
+			} else {
+			var icon = document.getElementById("as");
+			icon.className = "glyphicon glyphicon-remove";
+			icon.setAttribute("style","color:red");
+			document.getElementById("errorOnSignUp").innerHTML = "Give appropriate firstname"
+			valid = false;
+
+			}
+
+			}
+			function lastname() {
+			var lastname = document.getElementById('lastName').value;
+
+			if (lastname.length > 1) {
+			var icon = document.getElementById("as1");
+			icon.className = "glyphicon glyphicon-ok";
+			icon.setAttribute("style","color:green");
+			valid1 = true;
+			/* var span=document.getElementById('as');
+			var icon="glyphicon glyphicon-tick"
+			span.append(icon);
+			*/} else {
+			var icon = document.getElementById("as1");
+			icon.className = "glyphicon glyphicon-remove";
+			icon.setAttribute("style","color:red");
+			document.getElementById("errorOnSignUp").innerHTML = "Give appropriate lastname"
+			valid1 = false;
+
+			}
+
+			}
+
+			function validate() {
+			var email = document.getElementById("email").value;
+			var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			//var pass = document.getElementById('password').value;
+
+			if (email.match(mailformat)) {
+			var icon = document.getElementById("as2");
+			icon.className = "glyphicon glyphicon-ok";
+			icon.setAttribute("style","color:green");
+
+			valid2 = true;
+			} else {
+			var icon = document.getElementById("as2");
+			icon.className = "glyphicon glyphicon-remove";
+			icon.setAttribute("style","color:red");
+			document.getElementById("errorOnSignUp").innerHTML = "Give appropriate mail"
+			valid2 = false;
+
+			}
+			}
+			function password() {
+
+			var password = document.getElementById('password').value;
+
+			if (password.length > 5) {
+			var icon = document.getElementById("as3");
+			icon.className = "glyphicon glyphicon-ok";
+			icon.setAttribute("style","color:green");
+
+			valid3 = true;
+			/* var span=document.getElementById('as');
+			var icon="glyphicon glyphicon-tick"
+			span.append(icon);
+			*/} else {
+			var icon = document.getElementById("as3");
+			icon.className = "glyphicon glyphicon-remove";
+			icon.setAttribute("style","color:red");
+			document.getElementById("errorOnSignUp").innerHTML = "password should be minimum of 6 characters"
+			valid3 = false;
+			}
+
+			}
+			function verify() {
+			if (valid == true && valid1 == true && valid2 == true
+			&& valid3 == true) {
+			return true;
+			} else {
+			return false;
+			}
+			}
+
 	</script>
 
 
-
+<div id="errorOnSignUp"></div>
 	<div id='signUp'>
+	
 	<center>
 <div class="inner-addon left-addon">
 <i class="glyphicon glyphicon-user"></i><input type="text" name="firstName" id="firstName" placeholder="FirstName" required class="form-control" style="
     margin-top: 14px;
-"></div>
+" onfocusout="firstname();">
+
+<span id="as"></span>
+</div>
 <br>				
 <div class="inner-addon left-addon">
-<i class="glyphicon glyphicon-user"></i><input type="text" name="lastName" id="lastName"placeholder="LastName" required class="form-control"></div>
+<i class="glyphicon glyphicon-user"></i><input type="text" name="lastName" id="lastName"placeholder="LastName" required class="form-control" onfocusout="lastname();">
+<span id="as1"></span>
+</div>
 <br>			
 <div class="inner-addon left-addon">
-<i class="glyphicon glyphicon-envelope"></i><input type="email" name="email" id="email" placeholder ="email" required class="form-control"></div>
+<i class="glyphicon glyphicon-envelope"></i><input type="email" name="email" id="email" placeholder ="email" required class="form-control" onfocusout="validate();">
+<span id="as2"></span></div>
 	<br>		
 	<div class="inner-addon left-addon">
-<i class="glyphicon glyphicon-lock"></i><input type="password" name="password" id="password" placeholder="password" required class="form-control"></div><br>
-<div id="errormessage"></div><br>
-<div class="inner-addon left-addon"><input type="submit" value="signin" class="form-control" onclick="if(validate()){Register();}" style="
+<i class="glyphicon glyphicon-lock"></i><input type="password" name="password" id="password" placeholder="password" required class="form-control" onfocusout="password();">
+<span id="as3"></span>
+
+
+</div><br>
+<div id="errorOnSignIn"></div><br>
+<div class="inner-addon left-addon"><input type="submit" value="signup" class="form-control" onclick="if(verify()){Register();}" style="
     width: 91px;
     padding-left: 12px;
 ">
@@ -123,5 +228,29 @@ padding-left: 30px;
 
 .right-addon input {
 padding-right: 30px;
+}
+
+#as {
+margin-left: 202px;
+margin-top: -1px;
+float: right;
+}
+
+#as1 {
+margin-left: 202px;
+margin-top: -1px;
+float: right;
+}
+
+#as2 {
+margin-left: 202px;
+margin-top: -1px;
+float: right;
+}
+
+#as3 {
+margin-left: 202px;
+margin-top: -1px;
+float: right;
 }
 </style>
