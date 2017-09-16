@@ -16,7 +16,8 @@ function Login()
 		 //alert("success");
 		// alert(data);
 		 if(json.key=="success"){
-			 alert("enter the registered details");
+			 document.getElementById("errorOnSignIn").innerHTML = "enter the registered details"
+			 //alert("enter the registered details");
 			  //json(name);
 			
 		 }
@@ -83,7 +84,8 @@ function Login()
 	 }
 	 else
 		 {
-		 alert("unable to register,email already exists ,please try with different emailId");
+		 document.getElementById("errorOnSignUp").innerHTML = "email already exists ,please try with different emailId"
+		 //alert("unable to register,email already exists ,please try with different emailId");
 		 }
 	 //window.location.href="/afterlogin";
 	 //document.getElementById("myform").reset();

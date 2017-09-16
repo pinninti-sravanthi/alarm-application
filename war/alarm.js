@@ -4,9 +4,12 @@ var timer =null;
 function openBox()
 {
 document.getElementById("addingTime").style.display="block";
+
 }
 function closeBox(){
+	
 	document.getElementById("addingTime").style.display ="none";
+	document.getElementById("errorDisplay").style.display="none";
 	
 }
 function postTime()
@@ -42,16 +45,13 @@ var data = {"giveTime" : giveTime};
 						document.getElementById("giveTime").value=""
 
 					} else {
-						/*alert("time already exists");
-						document.getElementById("errorDisplay").innerHTML = "time already exists";*/
+						document.getElementById("addingTime").style.display ="block";
 						document.getElementById("timeExists").style.display="block";
+						
 						setTimeout(function()
 						{
 						document.getElementById("timeExists").style.display="none";
 						},3000);
-						
-						
-
 					}
 					
 			 	},
@@ -73,25 +73,31 @@ function addTime(event){
 	    if(e.keyCode == 13){
 	       //postTime();
 	    	time =document.getElementById("giveTime").value;
-	    	//checkTimeFormat(time);
-	    	postTime();
+	    	checkTimeFormat(time);
+	    	//postTime();
 	    }
 	  	if(e.keyCode==27){
 	    		document.getElementById("addingTime").style.display="none";
                }
 }
 
-
-/*function checkTimeFormat(event){
+function checkTimeFormat(event){
 //alert(event);
 	var regex = new RegExp("([0-1]?[0-9]:[0-5]?[0-9]:[0-5]?[0-9])");
+	var regex1=new RegExp("[a-zA-Z |!|@|#|$|%|^|&|*|(|)|_|+ ]+");
 	if (regex.test(event)) {
 	//alert("true");
 	postTime();
-	} else {
-	alert("please enter HH:MM:SS format only ");
 	}
-}*/
+	else if(regex1.test(event)){
+	
+	document.getElementById("errorDisplay").innerHTML="Alphabets are not allowed,enter only digits "
+	}
+	else
+		{
+		document.getElementById("errorDisplay").innerHTML="please enter HH:MM:SS format only ";
+		}
+}
 
 function startTimer(event){
 	var target = getEventTarget(event);

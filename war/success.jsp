@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,7 +8,7 @@
 <script src="js/bootstrap.min.js"></script>
 <style>
 .vertical_line {
-	height: 3000px;
+	/* height: 3000px; */
 	width: 1px;
 	background: #000;
 	
@@ -26,12 +25,16 @@ var name = "<%=x%>";
 
 
 </head>
-<body onfocusout="closeBox()">
+ <body onfocusout="closeBox()">
+<body>
 
 	<div class="col-md-6">
 		<h2>TIME</h2>
 		<div id="scrollBar" style="overflow-y: auto; height: 498px; margin-right: 217px;">
 		<h4><div id="emptyMessage" style="display:block; text-align:center"></div></h4>
+		
+		
+		
 			<ul id="givenTime" class="list-group"
 				style="width: 367px; text-align: center; font-size: 22px; border-left: 48;"
 				onclick="startTimer(event)">
@@ -41,17 +44,22 @@ var name = "<%=x%>";
 
 	<div id="bottom" style="position: fixed; bottom: 0px;">
 		<div id="addingTime" style="display: none;">
+		<p id="timeExists" style="display:none;text-align:center">Time already Exists</p>
 			<!-- <form id="reset"> -->
-				<input type="time" step="2" id="giveTime" name="time" 
+				<input type="text"  id="giveTime" name="time" 
 				onkeydown="addTime(event);"
 					style="width: 416px;margin-left: 4px;text-align: center;" autofocus>
 			<!-- </form> -->
 		</div>
+		 <div id="errorDisplay" style="text-align:center">
+		<p id="delete" style="display:none">Deleted Successfully</p>
+		</div> 
 		<div onclick="openBox()" id="plus">
 			<div id="hor">
-				<hr width="446px">
+				<h3 style="background-color:black; padding: 1% 452px 0% 0; ">
 			</div>
 			<center>
+			
 				<h1>
 					<div class="glyphicon glyphicon-plus" style="text-align:center"></div>
 				</h1>
@@ -59,12 +67,12 @@ var name = "<%=x%>";
 		</div>
 	</div>
 	<div class="col-md-6">
-		<div id="errorDisplay" >
+		<!-- <div id="errorDisplay" >
 		<p id="delete" style="display:none">Deleted Successfully</p>
-		<p id="timeExists" style="display:none">Time already Exists</p>
-		</div>
+		<p id="timeExists" style="display:none;">Time already Exists</p>
+		</div>  -->
 		<div class="vertical_line"
-			style="margin-top: -43px; margin-left: -237px; height: 640px;"></div>
+			style="margin-top: -43px; margin-left: -237px; height: 100vh;"></div>
 
 	</div>
 	<div class="col-md-6">
@@ -125,66 +133,30 @@ var name = "<%=x%>";
 											}
 									}
 								});
-
-						/* $('#giveTime')
-								.keypress(
-										function(e) {
-											if (e.which == 13) {
-												console
-														.log("You pressed enter!");
-
-												//alert("button pressed");
-												var giveTime = $("#giveTime")
-														.val();
-												console.log(giveTime);
-												var data = {
-													"giveTime" : giveTime
-												};
-												var jsonobject = JSON.stringify(data);
-												
-														$.ajax({
-															type : 'POST',
-															data : jsonobject,
-															url : 'Timer',
-															datatype : "application/json",
-															contentType : "text/plain",
-															success : function(
-																	result) {
-																var obj = JSON
-																		.parse(result);
-																if (obj.key == "success") {
-																	console
-																			.log("data inserted success");
-																	postTime();
-																	$("#reset")[0]
-																			.reset();
-																	//$("#result1").html(result);
-
-																} else {
-																	alert("time already exists");
-																	document.getElementById("errorDisplay").innerHTML = "time already exists";
-																	/* var targetToDelete1 = document
-																				.getElementById(giveTime).previousSibling;
-																		document
-																				.getElementById(giveTime).parentNode
-																				.removeChild(targetToDelete1);
-																		giveTime.style.display = "none";  */
-
-																//}
-																//alert(obj);
-																//alert(JSON.stringify(result));
-														/* 	},
-															error : function(
-																	result) {
-																alert("error");
-															}
-
-														});
-											}
-										}); */
  
 					});
 	</script>
 	
 </body>
+<%
+response.setHeader("Cache-Control", "no-cache");
+
+//Forces caches to obtain a new copy of the page from the origin server
+response.setHeader("Cache-Control", "no-store");
+
+//Directs caches not to store the page under any circumstance
+response.setDateHeader("Expires", 0);
+
+//Causes the proxy cache to see the page as "stale"
+response.setHeader("Pragma", "no-cache");
+//HTTP 1.0 backward enter code here
+
+String userName = (String) session.getAttribute("email");
+
+if (null == userName) {
+//request.setAttribute("Error", "Session has ended. Please logenter code herein.");
+RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+rd.forward(request, response);
+}
+%>
 </html>

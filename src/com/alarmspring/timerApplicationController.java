@@ -135,6 +135,7 @@ public class timerApplicationController {
 	PersistenceManager pmf = PMF.get().getPersistenceManager();
 	// pmf.makePersistent(pojo);
 	session.setAttribute("name", firstname);
+	session.setAttribute("email", email);
 	javax.jdo.Query q = pmf.newQuery(UserJDO.class, ("email==email1"));
 	q.declareParameters("String email1");
 	List<UserJDO> obj = (List<UserJDO>) q.execute(email);
@@ -165,6 +166,7 @@ public class timerApplicationController {
 	String email = (String)maper.get("email");
 	String password = (String)maper.get("password");
 	HttpSession session = request.getSession();
+	session.setAttribute("email", email);
 	PersistenceManager pm = PMF.get().getPersistenceManager();
 	UserJDO  loginObject= new UserJDO();
 	loginObject.setemail(email);
@@ -492,23 +494,22 @@ PersistenceManager pmf= PMF.get().getPersistenceManager();
 	@RequestMapping(value="/Signout",method=RequestMethod.POST)
 	public String signOut(HttpServletRequest request, HttpServletResponse response) throws  IOException {
 	System.out.println("into signout");
+	/*response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); 
+	response.setHeader("Pragma", "no-cache");
+	response.setHeader("Expires", "0");*/
 	ObjectMapper objectmapeer = new ObjectMapper();
-	Map map = new HashMap();
-	HttpSession session = request.getSession();
-	UserJDO userJdoObject=(UserJDO) session.getAttribute("id");
-	String email=userJdoObject.getemail();
-	System.out.println(email);
-	// session.removeAttribute("userJdoObject");
-	if(session!=null){
-	session.invalidate();
-		
+	Map<String,String> map = new HashMap();	
 	map.put("key","success");
-	}
+	
 	return  objectmapeer.writeValueAsString(map);
 
 }
 	@RequestMapping("/aftersigout")
-	public ModelAndView after(){
+	public ModelAndView after(HttpServletRequest request, HttpServletResponse response){
+		HttpSession session = request.getSession();
+		UserJDO userJdoObject=(UserJDO) session.getAttribute("id");
+		String email=userJdoObject.getemail();
+		session.invalidate();
 		return new ModelAndView("index"); 
 	}
 
