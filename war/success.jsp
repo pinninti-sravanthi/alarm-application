@@ -11,8 +11,11 @@
 	/* height: 3000px; */
 	width: 1px;
 	background: #000;
-	
+	height:100vh;
+	position:fixed;
+	margin-left: -224px;
 }
+
 </style>
 <div id="name" style="margin-left: 1243px; margin-top: 14px;"></div>
 <script>
@@ -25,8 +28,8 @@ var name = "<%=x%>";
 
 
 </head>
- <body onfocusout="closeBox()">
-<body>
+ <body onfocusout="closeBox()" background="images/successbg.jpg">
+
 
 	<div class="col-md-6">
 		<h2>TIME</h2>
@@ -48,7 +51,7 @@ var name = "<%=x%>";
 			<!-- <form id="reset"> -->
 				<input type="text"  id="giveTime" name="time" 
 				onkeydown="addTime(event);"
-					style="width: 416px;margin-left: 4px;text-align: center;" autofocus>
+					style="width: 474px;margin-left: 1px;text-align: center;" autofocus>
 			<!-- </form> -->
 		</div>
 		 <div id="errorDisplay" style="text-align:center">
@@ -56,7 +59,7 @@ var name = "<%=x%>";
 		</div> 
 		<div onclick="openBox()" id="plus">
 			<div id="hor">
-				<h3 style="background-color:black; padding: 1% 452px 0% 0; ">
+				<h3 style="background-color:black; padding: 1% 475px 0% 0;">
 			</div>
 			<center>
 			
@@ -67,12 +70,7 @@ var name = "<%=x%>";
 		</div>
 	</div>
 	<div class="col-md-6">
-		<!-- <div id="errorDisplay" >
-		<p id="delete" style="display:none">Deleted Successfully</p>
-		<p id="timeExists" style="display:none;">Time already Exists</p>
-		</div>  -->
-		<div class="vertical_line"
-			style="margin-top: -43px; margin-left: -237px; height: 100vh;"></div>
+		<div class="vertical_line"></div>
 
 	</div>
 	<div class="col-md-6">
