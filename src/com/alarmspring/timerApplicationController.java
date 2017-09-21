@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 //import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.scheduling.quartz.LocalDataSourceJobStore;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -162,7 +163,7 @@ public class timerApplicationController {
 
 				results1 = (List<TimerJDO>) query.execute(Id);
 
-				System.out.println("dfdf");
+				//System.out.println("dfdf");
 				if (results1.isEmpty() || results1.equals(null)) {
 				} else {
 
@@ -217,7 +218,6 @@ public class timerApplicationController {
 
 		String addtime = (String) map1.get("giveTime");
 		System.out.println("entered time in spring" + addtime);
-
 		SimpleDateFormat f = new SimpleDateFormat("hh:mm:ss");
 
 		Date d;
@@ -289,15 +289,9 @@ public class timerApplicationController {
 	@RequestMapping(value = "/Signout", method = RequestMethod.POST)
 	public String signOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		System.out.println("into signout");
-		/*
-		 * response.setHeader("Cache-Control",
-		 * "no-cache, no-store, must-revalidate"); response.setHeader("Pragma",
-		 * "no-cache"); response.setHeader("Expires", "0");
-		 */
 		ObjectMapper objectmapeer = new ObjectMapper();
 		Map<String, String> map = new HashMap();
 		map.put("key", "success");
-
 		return objectmapeer.writeValueAsString(map);
 
 	}

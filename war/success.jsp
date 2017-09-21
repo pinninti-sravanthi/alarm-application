@@ -8,36 +8,30 @@
 <script src="js/bootstrap.min.js"></script>
 <style>
 .vertical_line {
-	/* height: 3000px; */
-	width: 1px;
-	background: #000;
-	height:100vh;
-	position:fixed;
-	margin-left: -224px;
+/* height: 3000px; */
+width: 1px;
+background: #000;
 }
-
+ 
 </style>
 <div id="name" style="margin-left: 1243px; margin-top: 14px;"></div>
 <script>
 <%String x = (String) (session.getAttribute("name"));%>
 var name = "<%=x%>";
-
 	console.log(name);
 	document.getElementById("name").innerHTML = name;
+	
 </script>
 
 
 </head>
- <body onfocusout="closeBox()" background="images/successbg.jpg">
+ <body onfocusout="closeBox()" background="images/successbg.jpg" >
 
 
 	<div class="col-md-6">
 		<h2>TIME</h2>
 		<div id="scrollBar" style="overflow-y: auto; height: 498px; margin-right: 217px;">
 		<h4><div id="emptyMessage" style="display:block; text-align:center"></div></h4>
-		
-		
-		
 			<ul id="givenTime" class="list-group"
 				style="width: 367px; text-align: center; font-size: 22px; border-left: 48;"
 				onclick="startTimer(event)">
@@ -48,15 +42,14 @@ var name = "<%=x%>";
 	<div id="bottom" style="position: fixed; bottom: 0px;">
 		<div id="addingTime" style="display: none;">
 		<p id="timeExists" style="display:none;text-align:center">Time already Exists</p>
-			<!-- <form id="reset"> -->
+		<p id="delete" style="display:none;text-align:center;">Deleted Successfully</p>
+		 <div id="errorDisplay" style="text-align:center"></div>
+	
 				<input type="text"  id="giveTime" name="time" 
 				onkeydown="addTime(event);"
 					style="width: 474px;margin-left: 1px;text-align: center;" autofocus>
-			<!-- </form> -->
+			
 		</div>
-		 <div id="errorDisplay" style="text-align:center">
-		<p id="delete" style="display:none">Deleted Successfully</p>
-		</div> 
 		<div onclick="openBox()" id="plus">
 			<div id="hor">
 				<h3 style="background-color:black; padding: 1% 475px 0% 0;">
@@ -69,10 +62,9 @@ var name = "<%=x%>";
 			</center>
 		</div>
 	</div>
-	<div class="col-md-6">
-		<div class="vertical_line"></div>
-
-	</div>
+	 <div class="col-md-6">
+		<div class="vertical_line" style="margin-top: -43px; margin-left: -224px; height:100vh; "></div> 
+	</div> 
 	<div class="col-md-6">
 
 		<nav class="navbar navbar-fixed-top">
@@ -84,18 +76,54 @@ var name = "<%=x%>";
 		</ul>
 		</nav>
 		<div id="startTime"></div>
-		
 		<div id="display" style="font-size: 90px; margin-left: 681px; margin-top: -470px;">00:00:00</div>
 		<div id="stop" style="display: none" onclick="stop()">
-		<span class="glyphicon glyphicon-stop" style="color: red; font-size =10px; font-size: 25px; margin-left: 728px;">stop</span>
-			
-		</div>
+		<span class="glyphicon glyphicon-stop" style="color: red; font-size =10px; font-size: 25px; margin-left: 728px;">stop</span></div>
+		<span id="pause" onclick="pauseTime()"  style="display:none;color: green; font-size =10px; font-size: 25px; margin-left: 730px;">pause</span> 
+		 <!--  <div id="resume" onclick="resume()"> --><!-- class="glyphicon glyphicon-pause" -->
+		<!-- <span id="resume"class="glyphicon glyphicon-play-circle" style=" display:none;color:blue; font-size =10px; font-size: 25px; margin-left: 730px;">resume</span></div>  -->
 	</div>
+	
 	<div id="result1"></div>
 
 	<script src="alarm.js"></script>
 	<script src="Login.js"></script>
+	<script>
+	runTimer=localStorage.getItem("pauseTime")
+	if(runTimer!=null){
+	document.getElementById("display").innerHTML = runTimer;
+	document.getElementById("pause").style.display="block";
+	document.getElementById("stop").style.display="block";
+	date = new Date();
+	var initialtime = runTimer;
+	var array = null;
+	array = initialtime.split(':');
+	console.log(array);
+	var hours = array[0];
+	var minutes = array[1];
+	var seconds = array[2];
+	date.setHours(hours);
+	date.setMinutes(minutes);
+	date.setSeconds(seconds);
+	clearInterval(timer);
+	timer = setInterval(function() {
+		var hrs = date.getHours();
+		var min = date.getMinutes();
+		var sec = date.getSeconds();
+		hrs = hrs < 10 ? "0" + hrs : hrs;
+		min = min < 10 ? "0" + min : min;
+		sec = sec < 10 ? "0" + sec : sec;
+		document.getElementById("display").innerHTML = hrs + ":" + min
+				+ ":" + sec;
+		date.setTime(date.getTime() + 1000);
+	}, 1000);
+	}
+	else{
+		document.getElementById("display").innerHTML="00:00:00";
+	}
+	</script>
 	<script type="text/javascript">
+	
 	$(document).ready(function() {
 						$.ajax({
 									type : 'POST',

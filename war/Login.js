@@ -14,7 +14,6 @@ function Login() {
 				document.getElementById("errorOnSignIn").innerHTML = "enter the registered details"
 
 			} else {
-
 				window.location.href = "/afterlogin";
 
 			};
@@ -29,6 +28,7 @@ function Login() {
 	xhr.send(data);
 }
 function signOut() {
+	
 	var xhr = new XMLHttpRequest();
 	var url = "/Signout";
 	xhr.open("POST", url, true);
@@ -52,6 +52,7 @@ function Register() {
 	var Email = document.getElementById("email").value;
 	var password = document.getElementById("password").value;
 	console.log(Email);
+
 	var xhr = new XMLHttpRequest();
 	var url = "/AuthenticationServlet";
 	xhr.open("POST", url, true);
