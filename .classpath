@@ -17,5 +17,7 @@
 	<classpathentry kind="lib" path="C:/Users/User.FULL277-WIN/Desktop/jars/jackson-databind-2.1.0.jar/jackson-databind-2.1.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/User.FULL277-WIN/Desktop/jars/com.fasterxml.jackson.core.jar/com.fasterxml.jackson.core.jar"/>
 	<classpathentry kind="lib" path="C:/Users/User.FULL277-WIN/Desktop/jars/jackson-annotations-2.1.2.jar/jackson-annotations-2.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/User.FULL277-WIN/Desktop/activation.jar"/>
+	<classpathentry kind="lib" path="C:/Users/User.FULL277-WIN/Desktop/mail.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

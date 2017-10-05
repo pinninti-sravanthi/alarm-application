@@ -10,13 +10,27 @@ function Login() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			var json = JSON.parse(xhr.responseText);
 
-			if (json.key == "success") {
+			if (json.key1 == "fail1" ) {
+				console.log("key");
 				document.getElementById("errorOnSignIn").innerHTML = "enter the registered details"
+					//window.location.href="/adduser";
+			} 
+			else if( json.key3 == "fail2"){
+				document.getElementById("errorOnSignIn").innerHTML = "enter the  added registered details"
+			}
+		 if(json.key4 == "success2" && json.key1 == "fail1" ){
+			 document.getElementById("errorOnSignIn").style.diplay="none" ;
+			 						window.location.href="/afterlogin";
+			}
+			
+			if(json.key2 == "success1"){
+				window.location.href="/afterlogin";
+			}
+				
+			/*else {
+				document.getElementById("errorOnSignIn").innerHTML = "error"
 
-			} else {
-				window.location.href = "/afterlogin";
-
-			};
+			};*/
 		}
 	};
 	var data = JSON.stringify({
@@ -62,7 +76,7 @@ function Register() {
 			var json = JSON.parse(xhr.responseText);
 			
 			if (json.key == "success") {
-			
+				localStorage.removeItem("pauseTime");
 				window.location.href = "/register";
 			} else {
 				document.getElementById("errorOnSignUp").innerHTML = "email already exists ,please try with different emailId"
@@ -79,4 +93,35 @@ function Register() {
 	
 	xhr.send(data);
 
+}
+function addUsers(){
+	var firstName=document.getElementById("firstName").value;
+	var useremailId=document.getElementById("email").value;
+	var pass=document.getElementById("password").value;
+	var lastName=document.getElementById("lastName").value;
+	var xhr=new XMLHttpRequest();
+	var url ="/addUsers";
+	xhr.open("POST",url,true);
+	xhr.setRequestHeader("Content-type","application/json");
+	xhr.onreadystatechange=function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			var json=JSON.parse(xhr.responseText);
+			if (json.key == "success") {
+				document.getElementById("errorOnSignUp").innerHTML = "register success"
+					//window.location.href="/sendEmail"
+				
+			} else {
+				document.getElementById("errorOnSignUp").innerHTML = "unable to register"
+				
+			};
+		}
+	};
+	var data=JSON.stringify({
+		"firstName":firstName,
+		"useremailId":useremailId,
+		"pass":pass,
+		"lastName":lastName	
+	});
+	console.log(firstName);
+	xhr.send(data);
 }

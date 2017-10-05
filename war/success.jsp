@@ -6,18 +6,28 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <script src="jquery-3.2.1.min (1).js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="addUsers.jsp"></script>
 <style>
+
 .vertical_line {
 /* height: 3000px; */
 width: 1px;
 background: #000;
 }
- 
 </style>
+<div id="name" style="margin-left: 1265px; margin-top: 14px;"></div>
+<!-- <button type="button" style="margin-left: 1154px;margin-top: -19px;" onclick="'alert(hii)'">AddUsers</button> -->
+
+ 
+<!-- <div>
+ <select  style="margin-left: 1230px; margin-top: 14px;">
 <div id="name" style="margin-left: 1243px; margin-top: 14px;"></div>
+  <option value="name"id="name"></option>
+</select> 
+</div> -->
 <script>
 <%String x = (String) (session.getAttribute("name"));%>
-var name = "<%=x%>";
+ name = "<%=x%>";
 	console.log(name);
 	document.getElementById("name").innerHTML = name;
 	
@@ -70,10 +80,12 @@ var name = "<%=x%>";
 		<nav class="navbar navbar-fixed-top">
 		<ul class="nav navbar-nav navbar-right">
 			
-			<li><h5>
-					<div class="glyphicon glyphicon-off" onclick="signOut()" style="margin-right: 20px; font-size: 24px;"></div>
-				</h5></li>
+			<li><h5><div class="glyphicon glyphicon-off" onclick="signOut()" style="margin-right: 20px; font-size: 24px;"></div></h5></li>
+			<!-- <li><button type="button" style="margin-right: 30px; " onclick="alert('Hello world!')">Click Me!</button></li> -->
 		</ul>
+		<!-- <form method="post"action="/addUsers.jsp"onsubmit="return function()"> -->
+		<a href="addUsers.jsp"><button type="submit" style="margin-left: 1263px;margin-top: 10px;">Add Users!</button></a>
+		<!-- </form> -->
 		</nav>
 		<div id="startTime"></div>
 		<div id="display" style="font-size: 90px; margin-left: 681px; margin-top: -470px;">00:00:00</div>

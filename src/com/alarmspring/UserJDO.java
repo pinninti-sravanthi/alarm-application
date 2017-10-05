@@ -1,6 +1,10 @@
 package com.alarmspring;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -23,8 +27,7 @@ public class UserJDO implements Serializable {
 	private String email;
 	@Persistent
 	private String password;
-
-	public String getfirstName() {
+		public String getfirstName() {
 		return firstName;
 	}
 
